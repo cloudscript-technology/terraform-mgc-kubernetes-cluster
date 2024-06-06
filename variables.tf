@@ -1,7 +1,6 @@
 variable "name" {
   type        = string
   description = "Kubernetes cluster name"
-  default     = null
 }
 
 variable "description" {
@@ -44,5 +43,4 @@ variable "node_pools" {
     })))
   }))
   description = " An array representing a set of nodes within a Kubernetes cluster."
-  default = []
 }
