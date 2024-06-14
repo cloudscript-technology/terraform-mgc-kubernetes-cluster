@@ -41,39 +41,18 @@ terraform {
 module "kubernetes_cluster" {
   source = "github.com/cloudscript-technology/terraform-mgc-kubernetes-cluster?ref=0.0.1"
 
-  name                = "my-k8s-cluster"
-  enabled_bastion     = true
+  name                 = "my-k8s-cluster"
+  enabled_bastion      = false
   enabled_server_group = true
-
-  # *** CAUTION *** Recreate cluster on change
-  default_node_pools = [
-    {
-      name     = "pool-1"
-      flavor   = "standard"
-      replicas = 3
-      auto_scale = {
-        max_replicas = 5
-        min_replicas = 1
-      }
-      tags = ["env:prod", "team:devops"]
-      taints = [
-        {
-          effect = "NoSchedule"
-          key    = "dedicated"
-          value  = "db"
-        }
-      ]
-    }
-  ]
 
   node_pools = [
     {
-      name     = "pool-2"
-      flavor   = "standard"
+      name     = "pool-1"
+      flavor   = "cloud-k8s.gp1.medium"
       replicas = 3
       auto_scale = {
         max_replicas = 5
-        min_replicas = 1
+        min_replicas = 2
       }
       tags = ["env:prod", "team:devops"]
       taints = [
