@@ -26,6 +26,25 @@ variable "enabled_server_group" {
   default     = false
 }
 
+variable "default_node_pools" {
+  type        = list(object({
+    name     = string
+    flavor   = string
+    replicas = number
+    auto_scale = optional(object({
+      max_replicas = optional(number)
+      min_replicas = optional(number)
+    }))
+    tags = optional(list(string))
+    taints = optional(list(object({
+      effect = string
+      key    = string
+      value  = string
+    })))
+  }))
+  description = " An array representing a set of nodes within a Kubernetes cluster."
+}
+
 variable "node_pools" {
   type        = list(object({
     name     = string

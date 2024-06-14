@@ -45,7 +45,8 @@ module "kubernetes_cluster" {
   enabled_bastion     = true
   enabled_server_group = true
 
-  node_pools = [
+  # *** CAUTION *** Recreate cluster on change
+  default_node_pools = [
     {
       name     = "pool-1"
       flavor   = "standard"
@@ -60,6 +61,26 @@ module "kubernetes_cluster" {
           effect = "NoSchedule"
           key    = "dedicated"
           value  = "db"
+        }
+      ]
+    }
+  ]
+
+  node_pools = [
+    {
+      name     = "pool-2"
+      flavor   = "standard"
+      replicas = 3
+      auto_scale = {
+        max_replicas = 5
+        min_replicas = 1
+      }
+      tags = ["env:prod", "team:devops"]
+      taints = [
+        {
+          effect = "NoSchedule"
+          key    = "dedicated"
+          value  = "sys"
         }
       ]
     }
